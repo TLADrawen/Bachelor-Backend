@@ -3,6 +3,8 @@ package com.okv.protokoll.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.okv.protokoll.JWTUtils;
+import com.okv.protokoll.repositories.AdminRepository;
 import com.okv.protokoll.repositories.NutzerRepository;
 
 @Service("login")
@@ -10,15 +12,18 @@ public class Login {
 	
 	@Autowired
 	private NutzerRepository nutzerRepository;
+	@Autowired
+	private AdminRepository adminRepository;
 
 	public String login(String benutzername, String passwort) {
 		//ldap Authentication
-		if(!nutzerRepository.findById(benutzername).isPresent()) {
+		if(nutzerRepository.findById(benutzername).isPresent()) {
+			if (adminRepository.findById(benutzername).isPresent())
+				return JWTUtils.generateToken(benutzername, "admin");
+			else 
+				return JWTUtils.generateToken(benutzername, "nutzer");
+		}
+		else 
 			return null;
-		}
-		else {
-			//JWT Token
-			return "jwt";
-		}
 	}
 }

@@ -62,10 +62,5 @@ public class Nutzer {
 	public void setAktiv(boolean aktiv) {
 		this.aktiv = aktiv;
 	}
-	
-	@Override
-	public String toString() {
-		return vorname+" "+nachname;
-	}
 
 }

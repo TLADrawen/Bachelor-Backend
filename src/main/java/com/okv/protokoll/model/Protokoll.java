@@ -18,6 +18,12 @@ public class Protokoll {
 	
 	public Protokoll() {};
 	
+	public Protokoll(String bezeichnung, Date datum, String protokollant) {
+		this.bezeichnung = bezeichnung;
+		this.datum = datum;
+		this.protokollant = protokollant;
+	}
+
 	public Protokoll(int id, String bezeichnung, Date datum, String protokollant) {
 		this.id = id;
 		this.bezeichnung = bezeichnung;

@@ -29,7 +29,7 @@ import io.jsonwebtoken.Claims;
 public class ProtokollController {
 	
 	@Autowired
-	ProtokollRepository protokollRepository;
+	private ProtokollRepository protokollRepository;
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Protokoll> getOne(@RequestHeader("Authorization") String token, @PathVariable int id){
@@ -69,20 +69,19 @@ public class ProtokollController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> edit(@RequestHeader("Authorization") String token, @PathVariable int id,
-			@RequestBody Protokoll protokoll) {
+	public ResponseEntity<Void> edit(@RequestHeader("Authorization") String token, @RequestBody Protokoll protokoll) {
 		try {
 			Claims claims = JWTUtils.verifyToken(token);
 			if (!claims.get("scope", String.class).equals("admin"))
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 			else {
-				if (!protokollRepository.findById(id).isPresent())
+				if (!protokollRepository.findById(protokoll.getId()).isPresent())
 					return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 				else {
 					if (protokoll.getBezeichnung() == null || protokoll.getProtokollant() == null)
 						return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 					else {
-						protokollRepository.updateProtokoll(protokoll.getBezeichnung(), id);
+						protokollRepository.updateProtokoll(protokoll.getBezeichnung(), protokoll.getId());
 						return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 					}
 				}

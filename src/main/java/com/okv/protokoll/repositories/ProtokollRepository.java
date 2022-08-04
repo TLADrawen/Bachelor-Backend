@@ -11,6 +11,6 @@ import com.okv.protokoll.model.Protokoll;
 public interface ProtokollRepository extends JpaRepository<Protokoll, Integer>{
 
 	@Modifying
-	@Query("update Protokoll p set p.bezeichnung = ?1 where p.id= ?3")
+	@Query("update Protokoll p set p.bezeichnung = ?1 where p.id= ?2")
 	public void updateProtokoll(String bezeichnung, int id);
 }

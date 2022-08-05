@@ -56,13 +56,13 @@ public class ProtokollController {
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<Void> create(@RequestHeader("Authorization") String token, @RequestBody String bezeichnung){
+	public ResponseEntity<Integer> create(@RequestHeader("Authorization") String token, @RequestBody String bezeichnung){
 		try {
 			Claims claims = JWTUtils.verifyToken(token);
 			long date = new java.util.Date().getTime();
 			Protokoll protokoll = new Protokoll(bezeichnung, new Date(date),claims.get("name", String.class));
-			protokollRepository.save(protokoll);
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+			Protokoll saved = protokollRepository.save(protokoll);
+			return ResponseEntity.ok(saved.getId());
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}

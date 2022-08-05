@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="anwesend")
 @IdClass(BeitragId.class)
-public class Beitrag {
+public class Beitrag implements Comparable<Beitrag> {
 	
 	@Id
 	private int id;
@@ -49,6 +49,11 @@ public class Beitrag {
 
 	public void setNummer(int nummer) {
 		this.nummer = nummer;
+	}
+
+	@Override
+	public int compareTo(Beitrag o) {
+		return this.benutzername.compareTo(o.getId().getBenutzername());
 	}
 	
 }

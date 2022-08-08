@@ -18,6 +18,12 @@ public class Login {
 	@Autowired
 	private AdminRepository adminRepository;
 
+	/**
+	 * 
+	 * @param benutzername Vom einloggenden Nutzer
+	 * @param passwort Vom einloggenden Nutzer
+	 * @return JWT falls Login erfolgreich, ansonsten null
+	 */
 	public String login(String benutzername, String passwort) {
 		// ldap Authentication
 		Optional<Nutzer> dbNutzer = nutzerRepository.findById(benutzername);
